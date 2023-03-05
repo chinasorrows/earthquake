@@ -1,8 +1,10 @@
 package com.javarif.eartquake.client;
 
-import com.javarif.eartquake.client.pojos.Root;
+import com.javarif.eartquake.client.pojos.Result;
+
+import java.util.List;
 
 public interface KandilliClient {
 
-     Root getEarthquakeData();
+     List<Result> getEarthquakeData();
 }
