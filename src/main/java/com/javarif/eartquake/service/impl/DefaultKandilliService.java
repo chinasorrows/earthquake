@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class DefaultKandilliService implements KandilliService {
     private final KandilliClient kandilliClient;
 
-    @Override
-    public List<Earthquake> getEarthquakes() {
-
+    private List<Earthquake> getAllEarthquakes() {
         List<Result> earthquakes = kandilliClient.getEarthquakeData();
         List<Earthquake> earthquakeList = new ArrayList<>();
 
@@ -26,6 +26,22 @@ public class DefaultKandilliService implements KandilliService {
             populateEarthquakes(earthquakes, earthquakeList);
         }
         return earthquakeList;
+    }
+
+    @Override
+    public List<Earthquake> getEarthquakes() {
+        return getAllEarthquakes();
+    }
+
+    @Override
+    public List<Earthquake> getEarthquakeListByCity(String city) {
+        List<Earthquake> earthquakeList = getAllEarthquakes();
+
+        return earthquakeList.stream()
+                .filter(earthquake -> Pattern.compile(Pattern.quote(city), Pattern.CASE_INSENSITIVE)
+                        .matcher(earthquake.getTitle())
+                        .find())
+                .collect(Collectors.toList());
     }
 
     private void populateEarthquakes(List<Result> earthquakes, List<Earthquake> earthquakeList) {

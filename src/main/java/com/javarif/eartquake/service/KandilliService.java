@@ -7,4 +7,6 @@ import java.util.List;
 public interface KandilliService {
 
     List<Earthquake> getEarthquakes();
+
+    List<Earthquake> getEarthquakeListByCity(String city);
 }
