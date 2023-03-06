@@ -23,15 +23,19 @@ public class DefaultKandilliService implements KandilliService {
         List<Earthquake> earthquakeList = new ArrayList<>();
 
         if (CollectionUtils.isNotEmpty(earthquakes)) {
-            for (Result earthquakeData : earthquakes) {
-                Earthquake earthquake = new Earthquake();
-                earthquake.setEarthquakeId(earthquakeData.getEarthquake_id());
-                earthquake.setTitle(earthquakeData.getTitle());
-                earthquake.setMagnitude(earthquakeData.getMag());
-                earthquake.setDate(earthquakeData.getDate());
-                earthquakeList.add(earthquake);
-            }
+            populateEarthquakes(earthquakes, earthquakeList);
         }
         return earthquakeList;
+    }
+
+    private void populateEarthquakes(List<Result> earthquakes, List<Earthquake> earthquakeList) {
+        for (Result earthquakeData : earthquakes) {
+            Earthquake earthquake = new Earthquake();
+            earthquake.setEarthquakeId(earthquakeData.getEarthquake_id());
+            earthquake.setTitle(earthquakeData.getTitle());
+            earthquake.setMagnitude(earthquakeData.getMag());
+            earthquake.setDate(earthquakeData.getDate());
+            earthquakeList.add(earthquake);
+        }
     }
 }
